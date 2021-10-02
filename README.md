@@ -1,8 +1,20 @@
-# Basic Sample Hardhat Project
+# Smart Contract Client
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+## Available Scripts
 
-Try running some of the following tasks:
+### `yarn start`
+
+Runs the frontend app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
+
+### `npx hardhat node`
+
+Runs the local ethereum environment
+
+Other scripts
 
 ```shell
 npx hardhat accounts
