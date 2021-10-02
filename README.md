@@ -14,6 +14,10 @@ You will also see any lint errors in the console.
 
 Runs the local ethereum environment
 
+### `npx hardhat run scripts/deploy.js --network localhost`
+
+Deploy the smart contract
+
 Other scripts
 
 ```shell
@@ -21,7 +25,5 @@ npx hardhat accounts
 npx hardhat compile
 npx hardhat clean
 npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
 npx hardhat help
 ```
