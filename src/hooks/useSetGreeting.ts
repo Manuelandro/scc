@@ -7,10 +7,7 @@ export default function useSetGreeting(setFetching: React.Dispatch<boolean>): an
     const [greeting, setGreeting] = useState()
     const [setting, setSetting] = useState(false)
 
-    // request access to the user's MetaMask account
-    async function requestAccount(): Promise<void> {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-    }
+
 
    // call the smart contract, send an update
    useEffect(() => {
@@ -18,7 +15,8 @@ export default function useSetGreeting(setFetching: React.Dispatch<boolean>): an
 
    ;(async function() {
       try {
-        await requestAccount()
+        // request access to the user's MetaMask account
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner()
         const contract = new ethers.Contract(contractAddress, Greeter.abi, signer)
@@ -35,5 +33,6 @@ export default function useSetGreeting(setFetching: React.Dispatch<boolean>): an
 }, [setting, greeting])
 
 
+return [setSetting, setGreeting]
 
 }
