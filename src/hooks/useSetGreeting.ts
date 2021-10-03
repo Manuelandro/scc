@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { ethers } from 'ethers'
 import Greeter from '../artifacts/contracts/Greeter.sol/Greeter.json'
 const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
-export default function useSetGreeting(setFetching: React.Dispatch<boolean>): any {
-    const [greeting, setGreeting] = useState()
+type  ReturnTypes = [React.Dispatch<boolean>, React.Dispatch<string>]
+
+export default function useSetGreeting(setFetching: React.Dispatch<boolean>): ReturnTypes {
+    const ismounted = useRef(true)
+    const [greeting, setGreeting] = useState('')
     const [setting, setSetting] = useState(false)
 
-
-
+    // ensure component is mounted when call useState's method in async functions
+    useEffect(() => {
+      return () => {
+          ismounted.current = false
+      }
+    })
    // call the smart contract, send an update
    useEffect(() => {
     if (!setting || !greeting || typeof window.ethereum === 'undefined') {
@@ -25,11 +32,11 @@ export default function useSetGreeting(setFetching: React.Dispatch<boolean>): an
         const contract = new ethers.Contract(contractAddress, Greeter.abi, signer)
         const transaction = await contract.setGreeting(greeting)
         await transaction.wait()
-        setFetching(true)
+        if (ismounted.current) setFetching(true)
       } catch (err) {
         console.log(err)
       } finally {
-        setSetting(false)
+        if (ismounted.current) setSetting(false)
       }
 
     })()

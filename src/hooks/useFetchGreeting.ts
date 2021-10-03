@@ -1,10 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ethers } from 'ethers'
 import Greeter from '../artifacts/contracts/Greeter.sol/Greeter.json'
 const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
-export default function useFetchGreeting(): any {
+type  ReturnTypes = [React.Dispatch<boolean>]
+
+export default function useFetchGreeting(): ReturnTypes {
+    const ismounted = useRef(true)
     const [fetching, setFetching] = useState(false)
+
+    // ensure component is mounted when call useState's method in async functions
+    useEffect(() => {
+        return () => {
+            ismounted.current = false
+        }
+    })
 
     // call the smart contract, read the current greeting value
     useEffect(() => {
@@ -22,7 +32,7 @@ export default function useFetchGreeting(): any {
             } catch (err) {
                 console.log("Error: ", err)
             } finally {
-                setFetching(false)
+                if (ismounted.current) setFetching(false)
             }
 
         })()
