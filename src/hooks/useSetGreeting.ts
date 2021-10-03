@@ -11,7 +11,10 @@ export default function useSetGreeting(setFetching: React.Dispatch<boolean>): an
 
    // call the smart contract, send an update
    useEffect(() => {
-    if (!setting || !greeting || typeof window.ethereum === 'undefined') return
+    if (!setting || !greeting || typeof window.ethereum === 'undefined') {
+        setSetting(false)
+        return
+    }
 
    ;(async function() {
       try {

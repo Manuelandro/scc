@@ -8,7 +8,10 @@ export default function useFetchGreeting(): any {
 
     // call the smart contract, read the current greeting value
     useEffect(() => {
-        if (!fetching || typeof window.ethereum === 'undefined') return
+        if (!fetching || typeof window.ethereum === 'undefined') {
+            setFetching(false)
+            return
+        }
 
         ;(async function() {
             const provider = new ethers.providers.Web3Provider(window.ethereum)
